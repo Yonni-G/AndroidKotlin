@@ -1,12 +1,8 @@
 package com.example.tp_fil_rouge.screens
 
-import ArticleRepository
-import ArticleViewModel
-import ArticleViewModelFactory
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,6 +12,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -30,6 +27,7 @@ import coil.compose.AsyncImage
 import com.example.tp_fil_rouge.data.Article
 import com.example.tp_fil_rouge.ui.theme.MyHeader
 import com.example.tp_fil_rouge.ui.theme.MyPage
+import com.example.tp_fil_rouge.viewmodel.ArticleViewModel
 
 class ArticlesListeActivity : ComponentActivity() {
     private val viewModel: ArticleViewModel by viewModels()
@@ -37,34 +35,35 @@ class ArticlesListeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
+            ArticlesListe(navController = rememberNavController(), viewModel = viewModel)
         }
     }
 }
 
 @Composable
-fun ArticlesListe(navController: NavController) {
-
-
-    val repository = ArticleRepository() // Instance du Repository
-
-    // Charge 'viewModel()' pour obtenir le ViewModel d'un Article
-    val viewModel: ArticleViewModel = viewModel(factory = ArticleViewModelFactory(repository))
-
-    // Observer les articles avec collectAsState()
+fun ArticlesListe(navController: NavController, viewModel: ArticleViewModel = viewModel()) {
+    // Utilise collectAsState pour collecter les données depuis le ViewModel
     val articles by viewModel.articles.collectAsState()
+
+    // Lance fetchArticles lorsque la composable est activée
+    LaunchedEffect(Unit) {
+        viewModel.fetchArticles()
+    }
 
     MyPage {
         Column(modifier = Modifier.fillMaxSize()) {
             MyHeader(title = "Liste des articles", icon = Icons.Filled.Menu)
 
-            // Ajout article
+            // Ajout d'un article
             Button(onClick = {
-                viewModel.addArticle();
+                viewModel.addArticle()
             }) { Text(text = "Ajouter un article") }
+
             // 🔹 Utilisation de LazyColumn pour le défilement
             LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(16.dp)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
             ) {
                 items(articles) { article ->
                     ArticleItem(article = article)

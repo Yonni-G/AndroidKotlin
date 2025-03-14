@@ -1,4 +1,4 @@
-import androidx.lifecycle.ViewModel
+/*import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 class ArticleViewModelFactory(private val repository: ArticleRepository) : ViewModelProvider.Factory {
@@ -10,3 +10,4 @@ class ArticleViewModelFactory(private val repository: ArticleRepository) : ViewM
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+*/
