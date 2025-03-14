@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TP_FIL_ROUGE</string>
+    <string name="app_title_login">Login</string>
+    <string name="app_btn_connection">Se connecter</string>
+    <string name="app_field_email_hint">Votre adresse Email</string>
+    <string name="app_field_password_hint">Votre mot de passe</string>
+    <string name="app_msg_ask_have_account">Vous n\'avez pas de compte ?</string>
+    <string name="app_msg_password_forgotten">Je suis un boulet, j\'ai oublié mon mot de passe !</string>
+    <string name="app_btn_create_account">Créer un compte</string>
+</resources>
